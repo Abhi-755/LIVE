@@ -1,0 +1,22 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+    const chatBox = document.getElementById('chat-box');
+    const messageInput = document.getElementById('message-input');
+
+    function sendMessage() {
+        const message = messageInput.value;
+        if (message.trim() !== "") {
+            socket.emit('chat message', message);
+            messageInput.value = '';
+        }
+    }
+
+    socket.on('chat message', (msg) => {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message';
+        messageDiv.innerText = msg;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    });
+</script>
